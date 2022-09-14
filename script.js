@@ -71,7 +71,7 @@ canvas1.addEventListener('mousemove', function(event) {
 
 ctx1.fillStyle = '#dfd3c3';
 ctx1.font = '120px Verdana';
-ctx1.fillText('Hello', 100, 230);
+ctx1.fillText('Hello', canvas1.width/4.9, canvas1.height/1.6);
 
 const textCoordinates1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
 
@@ -164,7 +164,7 @@ canvas2.addEventListener('mousemove', function(event) {
 
 ctx2.fillStyle = '#dfd3c3';
 ctx2.font = '120px Verdana';
-ctx2.fillText('Hello', 100, 230);
+ctx2.fillText('Code', canvas1.width/4.9, canvas1.height/1.6);
 
 const textCoordinates2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
 
@@ -178,7 +178,7 @@ class Particle2 {
         this.density = (Math.random() * 30) + 5;
     }
     draw(){
-        ctx2.fillStyle = '#dfd3c3';
+        ctx2.fillStyle = '#596e79';
         ctx2.beginPath();
         ctx2.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx2.closePath();
