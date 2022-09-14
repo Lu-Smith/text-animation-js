@@ -72,5 +72,8 @@ window.addEventListener('resize', function(){
 canvas1.addEventListener('mousemove', function(event) {
     mouse1.x = event.x - canvas1.getBoundingClientRect().left;
     mouse1.y = event.y - canvas1.getBoundingClientRect().top;
-    console.log(mouse1.x, mouse1.y);
 })
+
+ctx1.fillStyle = 'white';
+ctx1.font = '90px Verdana';
+ctx1.fillText('Hello', 140, 220);
