@@ -61,7 +61,7 @@ canvas1.height = container1.offsetHeight;
 const mouse1 = {
     x: null,
     y: null,
-    radius: 80
+    radius: 50
 }
 
 canvas1.addEventListener('mousemove', function(event) {
@@ -69,23 +69,23 @@ canvas1.addEventListener('mousemove', function(event) {
     mouse1.y = event.y - canvas1.getBoundingClientRect().top;
 })
 
-ctx1.fillStyle = 'white';
-ctx1.font = '90px Verdana';
-ctx1.fillText('Hello', 140, 220);
+ctx1.fillStyle = '#dfd3c3';
+ctx1.font = '120px Verdana';
+ctx1.fillText('Hello', 100, 230);
 
-const data1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+const textCoordinates1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
 
 class Particle1 {
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.size = 3;
+        this.size = 2;
         this.baseX = this.x;
         this.baseY = this.y;
         this.density = (Math.random() * 30) + 5;
     }
     draw(){
-        ctx1.fillStyle = 'red';
+        ctx1.fillStyle = '#dfd3c3';
         ctx1.beginPath();
         ctx1.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx1.closePath();
@@ -107,21 +107,25 @@ class Particle1 {
         } else {
             if ( this.x !== this.baseX ){
                 let dx = this.x - this.baseX;
-                this.x -= dx/15;
+                this.x -= dx/20;
             } 
             if ( this.y !== this.baseY ){
                 let dy = this.y - this.baseY;
-                this.y -= dy/15;
+                this.y -= dy/20;
             } 
         }
     }
 }
 
 function init1() {
-    for (let i = 0; i < 500; i++) {
-        let x = Math.random() * canvas1.width;
-        let y = Math.random() * canvas1.height;
-        particlesArray1.push(new Particle1(x, y));
+    for (let y = 0, y2 = textCoordinates1.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates1.width; x < x2; x++) {
+           if (textCoordinates1.data[(y * 4 * textCoordinates1.width) + (x * 4)] > 128) {
+              let positionX = x;
+              let positionY = y;
+              particlesArray1.push(new Particle1(positionX, positionY));
+           }
+        }
     }
 }
 
