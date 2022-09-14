@@ -64,10 +64,7 @@ const mouse1 = {
     radius: 150
 }
 
-window.addEventListener('resize', function(){
-    canvas1.width = container1.offsetWidth;
-    canvas1.height = container1.offsetHeight;
-})
+
 
 canvas1.addEventListener('mousemove', function(event) {
     mouse1.x = event.x - canvas1.getBoundingClientRect().left;
@@ -77,3 +74,23 @@ canvas1.addEventListener('mousemove', function(event) {
 ctx1.fillStyle = 'white';
 ctx1.font = '90px Verdana';
 ctx1.fillText('Hello', 140, 220);
+
+const data = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+
+class Particle1 {
+    constructor(x, y){
+        this.x = x + 100;
+        this.y = y;
+        this.size = 3;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 30) + 1;
+    }
+    draw(){
+        ctx1.fillStyle = 'white';
+        ctx1.beginPath();
+        ctx1.ard(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx1.closePath();
+        ctx1.fillStyle();
+    }
+}
