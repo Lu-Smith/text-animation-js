@@ -94,8 +94,11 @@ class Particle1 {
 }
 
 function init1() {
-    particlesArray1.push(new Particle1(300, 50));
-    particlesArray1.push(new Particle1(80, 100));
+    for (let i = 0; i < 500; i++) {
+        let x = Math.random() * canvas1.width;
+        let y = Math.random() * canvas1.height;
+        particlesArray1.push(new Particle1(x, y));
+    }
 }
 
 init1();
