@@ -498,3 +498,129 @@ function connect4() {
         }
     }
 }
+
+
+//camvas5
+const canvas5 = document.getElementById('canvas5');
+const container5 = document.getElementById('container5');
+const ctx5 = canvas5.getContext('2d');
+const particlesArray5 = [];
+
+canvas5.width = container5.offsetWidth;
+canvas5.height = container5.offsetHeight;
+
+const mouse5 = {
+    x: null,
+    y: null,
+    radius: 70
+}
+
+canvas5.addEventListener('mousemove', function(event) {
+    mouse5.x = event.x - canvas5.getBoundingClientRect().left;
+    mouse5.y = event.y - canvas5.getBoundingClientRect().top;
+})
+
+ctx5.fillStyle = '#dfd5c5';
+ctx5.font = '25px Verdana';
+ctx5.fillText('&', 13, 23);
+
+const textCoordinates5 = ctx5.getImageData(0, 0, canvas5.width, canvas5.height);
+
+class Particle5 {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.size = 3;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 60) + 5;
+    }
+    draw(){
+        let dx = mouse5.x - this.x;
+        let dy = mouse5.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > 50) {
+            ctx5.fillStyle = 'white';
+            this.size = 3;
+        } else {
+            ctx5.fillStyle = 'grey';
+            this.size = 5;
+        } 
+        ctx5.beginPath();
+        ctx5.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx5.closePath();
+        ctx5.fill();
+    }
+    update(){
+        let dx = mouse5.x - this.x;
+        let dy = mouse5.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse5.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse5.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
+        } else {
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/30;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/30;
+            } 
+        }
+    }
+}
+
+function init5() {
+    for (let y = 0, y2 = textCoordinates5.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates5.width; x < x2; x++) {
+           if (textCoordinates5.data[(y * 4 * textCoordinates5.width) + (x * 4)] > 128) {
+              let positionX = x;
+              let positionY = y;
+              particlesArray5.push(new Particle5(positionX * 12, positionY * 12));
+           }
+        }
+    }
+}
+
+init5();
+
+function animate5() {
+    ctx5.clearRect(0, 0, canvas5.width, canvas5.height);
+    for (let i = 0; i < particlesArray5.length; i++) {
+        particlesArray5[i].draw();
+        particlesArray5[i].update();
+    }
+    connect5();
+    requestAnimationFrame(animate5);
+}
+
+animate5();
+
+function connect5() {
+    let opacityValue5 = 1;
+    for (let a = 0; a < particlesArray5.length; a++) {
+        for (let b = a; b < particlesArray5.length; b++) {
+            let dx = particlesArray5[a].x - particlesArray5[b].x;
+            let dy= particlesArray5[a].y - particlesArray5[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 22) {
+                opacityValue5 = 1 - (distance/22);
+                ctx5.strokeStyle = 'rgba(255, 255, 255,' + opacityValue5 + ')';
+                ctx5.lineWidth = 5;
+                ctx5.beginPath();
+                ctx5.moveTo(particlesArray5[a].x, particlesArray5[a].y);
+                ctx5.lineTo(particlesArray5[b].x, particlesArray5[b].y);
+                ctx5.stroke();
+
+            }
+        }
+    }
+}
+
