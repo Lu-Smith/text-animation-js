@@ -64,8 +64,6 @@ const mouse1 = {
     radius: 150
 }
 
-
-
 canvas1.addEventListener('mousemove', function(event) {
     mouse1.x = event.x - canvas1.getBoundingClientRect().left;
     mouse1.y = event.y - canvas1.getBoundingClientRect().top;
@@ -79,7 +77,7 @@ const data = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
 
 class Particle1 {
     constructor(x, y){
-        this.x = x + 100;
+        this.x = x;
         this.y = y;
         this.size = 3;
         this.baseX = this.x;
@@ -89,8 +87,16 @@ class Particle1 {
     draw(){
         ctx1.fillStyle = 'white';
         ctx1.beginPath();
-        ctx1.ard(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx1.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx1.closePath();
         ctx1.fillStyle();
     }
 }
+
+function init1() {
+    particlesArray1.push(new Particle1(50, 50));
+    particlesArray1.push(new Particle1(80, 70));
+}
+
+init1();
+console.log(particlesArray1);
