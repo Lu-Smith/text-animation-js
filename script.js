@@ -89,14 +89,24 @@ class Particle1 {
         ctx1.beginPath();
         ctx1.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx1.closePath();
-        ctx1.fillStyle();
+        ctx1.fill();
     }
 }
 
 function init1() {
-    particlesArray1.push(new Particle1(50, 50));
-    particlesArray1.push(new Particle1(80, 70));
+    particlesArray1.push(new Particle1(300, 50));
+    particlesArray1.push(new Particle1(80, 100));
 }
 
 init1();
 console.log(particlesArray1);
+
+function animate() {
+    ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+    for (let i = 0; i < particlesArray1.length; i++) {
+        particlesArray1[i].draw();
+    }
+    requestAnimationFrame(animate);
+}
+
+animate();
