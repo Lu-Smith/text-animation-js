@@ -243,8 +243,8 @@ const canvas3 = document.getElementById('canvas3');
 const container3 = document.getElementById('container3');
 const ctx3 = canvas3.getContext('2d');
 const particlesArray3 = [];
-const adjust3X = -5;
-const adjust3Y = 12;
+const adjust3X = -20;
+const adjust3Y = -10;
 
 canvas3.width = container3.offsetWidth;
 canvas3.height = container3.offsetHeight;
@@ -261,8 +261,8 @@ canvas3.addEventListener('mousemove', function(event) {
 })
 
 ctx3.fillStyle = '#dfd3c3';
-ctx3.font = '30px Verdana';
-ctx3.fillText('Tea', 30, 30);
+ctx3.font = '20px Verdana';
+ctx3.fillText('Tea', 40, 40);
 
 const textCoordinates3 = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
 
@@ -314,7 +314,7 @@ function init3() {
            if (textCoordinates3.data[(y * 4 * textCoordinates3.width) + (x * 4)] > 128) {
               let positionX = x + adjust3X;
               let positionY = y + adjust3Y;
-              particlesArray3.push(new Particle3(positionX * 5, positionY * 5));
+              particlesArray3.push(new Particle3(positionX * 7, positionY * 7));
            }
         }
     }
