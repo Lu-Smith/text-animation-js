@@ -61,12 +61,13 @@ canvas1.height = container1.offsetHeight;
 const mouse1 = {
     x: null,
     y: null,
-    radius: 150
+    radius: 80
 }
 
 canvas1.addEventListener('mousemove', function(event) {
     mouse1.x = event.x - canvas1.getBoundingClientRect().left;
     mouse1.y = event.y - canvas1.getBoundingClientRect().top;
+    mouse1.radius = 80;
 })
 
 ctx1.fillStyle = 'white';
@@ -95,8 +96,15 @@ class Particle1 {
         let dx = mouse1.x - this.x;
         let dy = mouse1.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 100) {
-            this.size = 10;
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse1.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse1.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
         } else {
             this.size = 3;
         }
