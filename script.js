@@ -147,7 +147,7 @@ const canvas2 = document.getElementById('canvas2');
 const container2 = document.getElementById('container2');
 const ctx2 = canvas2.getContext('2d');
 const particlesArray2 = [];
-const adjust2X = -17;
+const adjust2X = -14;
 const adjust2Y = 12;
 
 canvas2.width = container2.offsetWidth;
@@ -156,7 +156,7 @@ canvas2.height = container2.offsetHeight;
 const mouse2 = {
     x: null,
     y: null,
-    radius: 50
+    radius: 60
 }
 
 canvas2.addEventListener('mousemove', function(event) {
@@ -164,8 +164,8 @@ canvas2.addEventListener('mousemove', function(event) {
     mouse2.y = event.y - canvas2.getBoundingClientRect().top;
 })
 
-ctx2.fillStyle = '#dfd3c3';
-ctx2.font = '30px Verdana';
+ctx2.fillStyle = '#f95959';
+ctx2.font = '30px Georgia';
 ctx2.fillText('Code', 30, 30);
 
 const textCoordinates2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -174,15 +174,15 @@ class Particle2 {
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.size = 2;
+        this.size = 8;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.density = (Math.random() * 30) + 5;
+        this.density = (Math.random() * 70) + 6;
     }
     draw(){
-        ctx2.fillStyle = '#596e79';
+        ctx2.fillStyle = 'white';
         ctx2.beginPath();
-        ctx2.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx2.rect(this.x, this.y, this.size, this.size);
         ctx2.closePath();
         ctx2.fill();
     }
@@ -202,11 +202,11 @@ class Particle2 {
         } else {
             if ( this.x !== this.baseX ){
                 let dx = this.x - this.baseX;
-                this.x -= dx/20;
+                this.x -= dx/15;
             } 
             if ( this.y !== this.baseY ){
                 let dy = this.y - this.baseY;
-                this.y -= dy/20;
+                this.y -= dy/15;
             } 
         }
     }
@@ -232,10 +232,31 @@ function animate2() {
         particlesArray2[i].draw();
         particlesArray2[i].update();
     }
+    connect();
     requestAnimationFrame(animate2);
 }
 
 animate2();
+
+function connect() {
+    for (let a = 0; a < particlesArray2.length; a++) {
+        for (let b = a; b < particlesArray2.length; b++) {
+            let dx = particlesArray2[a].x - particlesArray2[b].x;
+            let dy= particlesArray2[a].y - particlesArray2[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 9) {
+                ctx2.strokeStyle = '#ff6f3c';
+                ctx2.lineWidth = 2;
+                ctx2.beginPath();
+                ctx2.moveTo(particlesArray2[a].x, particlesArray2[a].y);
+                ctx2.lineTo(particlesArray2[b].x, particlesArray2[b].y);
+                ctx2.stroke();
+
+            }
+        }
+    }
+}
 
 
 //camvas3
@@ -332,3 +353,99 @@ function animate3() {
 }
 
 animate3();
+
+//camvas4
+const canvas4 = document.getElementById('canvas4');
+const container4 = document.getElementById('container4');
+const ctx4 = canvas4.getContext('2d');
+const particlesArray4 = [];
+const adjust4X = -20;
+const adjust4Y = -6;
+
+canvas4.width = container4.offsetWidth;
+canvas4.height = container4.offsetHeight;
+
+const mouse4 = {
+    x: null,
+    y: null,
+    radius: 50
+}
+
+canvas4.addEventListener('mousemove', function(event) {
+    mouse4.x = event.x - canvas4.getBoundingClientRect().left;
+    mouse4.y = event.y - canvas4.getBoundingClientRect().top;
+})
+
+ctx4.fillStyle = '#dfd4c4';
+ctx4.font = '30px Verdana';
+ctx4.fillText('PI', 40, 40);
+
+const textCoordinates4 = ctx4.getImageData(0, 0, canvas4.width, canvas4.height);
+
+class Particle4 {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.size = 2;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 60) + 5;
+    }
+    draw(){
+        ctx4.fillStyle = '#596e79';
+        ctx4.beginPath();
+        ctx4.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx4.closePath();
+        ctx4.fill();
+    }
+    update(){
+        let dx = mouse4.x - this.x;
+        let dy = mouse4.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse4.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse4.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
+        } else {
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/30;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/30;
+            } 
+        }
+    }
+}
+
+function init4() {
+    for (let y = 0, y2 = textCoordinates4.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates4.width; x < x2; x++) {
+           if (textCoordinates4.data[(y * 4 * textCoordinates4.width) + (x * 4)] > 128) {
+              let positionX = x + adjust4X;
+              let positionY = y + adjust4Y;
+              particlesArray4.push(new Particle4(positionX * 7, positionY * 7));
+           }
+        }
+    }
+}
+
+init4();
+
+function animate4() {
+    ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+    for (let i = 0; i < particlesArray4.length; i++) {
+        particlesArray4[i].draw();
+        particlesArray4[i].update();
+    }
+    requestAnimationFrame(animate4);
+}
+
+animate4();
+
