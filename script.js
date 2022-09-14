@@ -150,6 +150,7 @@ const particlesArray2 = [];
 const adjust2X = -14;
 const adjust2Y = 12;
 
+
 canvas2.width = container2.offsetWidth;
 canvas2.height = container2.offsetHeight;
 
@@ -232,27 +233,31 @@ function animate2() {
         particlesArray2[i].draw();
         particlesArray2[i].update();
     }
-    connect();
+    connect2();
     requestAnimationFrame(animate2);
 }
 
 animate2();
 
-function connect() {
+function connect2() {
     for (let a = 0; a < particlesArray2.length; a++) {
         for (let b = a; b < particlesArray2.length; b++) {
             let dx = particlesArray2[a].x - particlesArray2[b].x;
             let dy= particlesArray2[a].y - particlesArray2[b].y;
             let distance = Math.sqrt(dx * dx + dy * dy);
-
             if (distance < 9) {
-                ctx2.strokeStyle = '#ff6f3c';
+                if (mouse2.x < 70) {
+                    ctx2.strokeStyle = '#f70776';
+                } else if (mouse2.x > 250) {
+                    ctx2.strokeStyle = '#6643b5';
+                } else {
+                    ctx2.strokeStyle = '#00aaa0';
+                }
                 ctx2.lineWidth = 2;
                 ctx2.beginPath();
                 ctx2.moveTo(particlesArray2[a].x, particlesArray2[a].y);
                 ctx2.lineTo(particlesArray2[b].x, particlesArray2[b].y);
                 ctx2.stroke();
-
             }
         }
     }
@@ -266,6 +271,7 @@ const ctx3 = canvas3.getContext('2d');
 const particlesArray3 = [];
 const adjust3X = -20;
 const adjust3Y = -10;
+let hue3 = 0;
 
 canvas3.width = container3.offsetWidth;
 canvas3.height = container3.offsetHeight;
@@ -295,9 +301,11 @@ class Particle3 {
         this.baseX = this.x;
         this.baseY = this.y;
         this.density = (Math.random() * 30) + 5;
+        hue3 = this.density;
+        this.color = 'hsl(' + hue3 + ', 100%, 50%)';
     }
     draw(){
-        ctx3.fillStyle = '#596e79';
+        ctx3.fillStyle = this.color;
         ctx3.beginPath();
         ctx3.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx3.closePath();
@@ -359,8 +367,8 @@ const canvas4 = document.getElementById('canvas4');
 const container4 = document.getElementById('container4');
 const ctx4 = canvas4.getContext('2d');
 const particlesArray4 = [];
-const adjust4X = -20;
-const adjust4Y = -6;
+const adjust4X = -27;
+const adjust4Y = -11;
 
 canvas4.width = container4.offsetWidth;
 canvas4.height = container4.offsetHeight;
@@ -430,7 +438,7 @@ function init4() {
            if (textCoordinates4.data[(y * 4 * textCoordinates4.width) + (x * 4)] > 128) {
               let positionX = x + adjust4X;
               let positionY = y + adjust4Y;
-              particlesArray4.push(new Particle4(positionX * 7, positionY * 7));
+              particlesArray4.push(new Particle4(positionX * 9, positionY * 9));
            }
         }
     }
@@ -444,8 +452,29 @@ function animate4() {
         particlesArray4[i].draw();
         particlesArray4[i].update();
     }
+    connect4();
     requestAnimationFrame(animate4);
 }
 
 animate4();
 
+function connect4() {
+    let opacityValue4 = 1;
+    for (let a = 0; a < particlesArray4.length; a++) {
+        for (let b = a; b < particlesArray4.length; b++) {
+            let dx = particlesArray4[a].x - particlesArray4[b].x;
+            let dy= particlesArray4[a].y - particlesArray4[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 15) {
+                opacityValue4 = 1 - (distance/15);
+                ctx4.strokeStyle = 'rgba(255, 201, 60,' + opacityValue4 + ')';
+                ctx4.lineWidth = 4;
+                ctx4.beginPath();
+                ctx4.moveTo(particlesArray4[a].x, particlesArray4[a].y);
+                ctx4.lineTo(particlesArray4[b].x, particlesArray4[b].y);
+                ctx4.stroke();
+
+            }
+        }
+    }
+}
