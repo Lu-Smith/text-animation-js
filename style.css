@@ -27,8 +27,24 @@ h1 {
 
 h2 {
     color: #928270;
+    margin-bottom: 10px;
     
 }
+
+span {
+    display: inline-block;
+    opacity: 0;
+    transition: all 0.8s ease;
+    transform: scaleX(20%);
+    color: black;
+}
+
+span.fade {
+    opacity: 0.9;
+    transform: scaleX(100%);
+    color: #928270;;
+}
+
 .box {
     background: black;
     color: white;
