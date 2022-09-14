@@ -52,7 +52,25 @@ function complete() {
 //camvas1
 const canvas1 = document.getElementById('canvas1');
 const container1 = document.getElementById('container1');
-const ctx1 = canvas1.innerHTML('2d');
+const ctx1 = canvas1.getContext('2d');
+const particlesArray1 = [];
 
 canvas1.width = container1.offsetWidth;
 canvas1.height = container1.offsetHeight;
+
+const mouse1 = {
+    x: null,
+    y: null,
+    radius: 150
+}
+
+window.addEventListener('resize', function(){
+    canvas1.width = container1.offsetWidth;
+    canvas1.height = container1.offsetHeight;
+})
+
+canvas1.addEventListener('mousemove', function(event) {
+    mouse1.x = event.x - canvas1.getBoundingClientRect().left;
+    mouse1.y = event.y - canvas1.getBoundingClientRect().top;
+    console.log(mouse1.x, mouse1.y);
+})
