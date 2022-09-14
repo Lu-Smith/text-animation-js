@@ -85,11 +85,21 @@ class Particle1 {
         this.density = (Math.random() * 30) + 1;
     }
     draw(){
-        ctx1.fillStyle = 'white';
+        ctx1.fillStyle = 'red';
         ctx1.beginPath();
         ctx1.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx1.closePath();
         ctx1.fill();
+    }
+    update(){
+        let dx = mouse1.x - this.x;
+        let dy = mouse1.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 100) {
+            this.size = 10;
+        } else {
+            this.size = 3;
+        }
     }
 }
 
@@ -102,12 +112,12 @@ function init1() {
 }
 
 init1();
-console.log(particlesArray1);
 
 function animate() {
     ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
     for (let i = 0; i < particlesArray1.length; i++) {
         particlesArray1[i].draw();
+        particlesArray1[i].update();
     }
     requestAnimationFrame(animate);
 }
