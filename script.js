@@ -67,7 +67,6 @@ const mouse1 = {
 canvas1.addEventListener('mousemove', function(event) {
     mouse1.x = event.x - canvas1.getBoundingClientRect().left;
     mouse1.y = event.y - canvas1.getBoundingClientRect().top;
-    mouse1.radius = 80;
 })
 
 ctx1.fillStyle = 'white';
@@ -83,7 +82,7 @@ class Particle1 {
         this.size = 3;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
+        this.density = (Math.random() * 30) + 5;
     }
     draw(){
         ctx1.fillStyle = 'red';
@@ -106,7 +105,14 @@ class Particle1 {
             this.x -= directionX;
             this.y -= directionY;
         } else {
-            this.size = 3;
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/15;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/15;
+            } 
         }
     }
 }
