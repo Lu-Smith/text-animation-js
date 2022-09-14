@@ -147,6 +147,8 @@ const canvas2 = document.getElementById('canvas2');
 const container2 = document.getElementById('container2');
 const ctx2 = canvas2.getContext('2d');
 const particlesArray2 = [];
+const adjust2X = -18;
+const adjust2Y = 23;
 
 canvas2.width = container2.offsetWidth;
 canvas2.height = container2.offsetHeight;
@@ -163,8 +165,8 @@ canvas2.addEventListener('mousemove', function(event) {
 })
 
 ctx2.fillStyle = '#dfd3c3';
-ctx2.font = '120px Verdana';
-ctx2.fillText('Code', canvas1.width/4.9, canvas1.height/1.6);
+ctx2.font = '40px Verdana';
+ctx2.fillText('Code', 30, 30);
 
 const textCoordinates2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
 
@@ -214,9 +216,9 @@ function init2() {
     for (let y = 0, y2 = textCoordinates2.height; y < y2; y++) {
         for (let x = 0, x2 = textCoordinates2.width; x < x2; x++) {
            if (textCoordinates2.data[(y * 4 * textCoordinates2.width) + (x * 4)] > 128) {
-              let positionX = x;
-              let positionY = y;
-              particlesArray2.push(new Particle2(positionX, positionY));
+              let positionX = x + adjust2X;
+              let positionY = y + adjust2Y;
+              particlesArray2.push(new Particle2(positionX * 4, positionY * 4));
            }
         }
     }
