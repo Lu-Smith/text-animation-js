@@ -269,8 +269,8 @@ const canvas3 = document.getElementById('canvas3');
 const container3 = document.getElementById('container3');
 const ctx3 = canvas3.getContext('2d');
 const particlesArray3 = [];
-const adjust3X = -20;
-const adjust3Y = -10;
+const adjust3X = -28;
+const adjust3Y = -11;
 let hue3 = 0;
 
 canvas3.width = container3.offsetWidth;
@@ -288,7 +288,7 @@ canvas3.addEventListener('mousemove', function(event) {
 })
 
 ctx3.fillStyle = '#dfd3c3';
-ctx3.font = '20px Verdana';
+ctx3.font = '25px Verdana';
 ctx3.fillText('Tea', 40, 40);
 
 const textCoordinates3 = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
@@ -305,7 +305,14 @@ class Particle3 {
         this.color = 'hsl(' + hue3 + ', 100%, 50%)';
     }
     draw(){
-        ctx3.fillStyle = this.color;
+        let dx = mouse3.x - this.x;
+        let dy = mouse3.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < mouse3.radius) {
+            ctx3.fillStyle = 'white';
+        } else {
+            ctx3.fillStyle = this.color;
+        }
         ctx3.beginPath();
         ctx3.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx3.closePath();
@@ -343,7 +350,7 @@ function init3() {
            if (textCoordinates3.data[(y * 4 * textCoordinates3.width) + (x * 4)] > 128) {
               let positionX = x + adjust3X;
               let positionY = y + adjust3Y;
-              particlesArray3.push(new Particle3(positionX * 7, positionY * 7));
+              particlesArray3.push(new Particle3(positionX * 8, positionY * 8));
            }
         }
     }
@@ -362,6 +369,7 @@ function animate3() {
 
 animate3();
 
+
 //camvas4
 const canvas4 = document.getElementById('canvas4');
 const container4 = document.getElementById('container4');
@@ -376,7 +384,7 @@ canvas4.height = container4.offsetHeight;
 const mouse4 = {
     x: null,
     y: null,
-    radius: 50
+    radius: 70
 }
 
 canvas4.addEventListener('mousemove', function(event) {
@@ -394,15 +402,27 @@ class Particle4 {
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.size = 2;
+        this.size = 3;
         this.baseX = this.x;
         this.baseY = this.y;
         this.density = (Math.random() * 60) + 5;
     }
     draw(){
-        ctx4.fillStyle = '#596e79';
+        let dx = mouse4.x - this.x;
+        let dy = mouse4.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > 100) {
+            ctx4.fillStyle = '#8dc6ff';
+            this.size = 3;
+        } else  if (distance < 50) {
+            ctx4.fillStyle = '#f4aeba';
+            this.size = 7;
+        } else {
+            ctx4.fillStyle = '#fdfdcb';
+            this.size = 3;
+        }
         ctx4.beginPath();
-        ctx4.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx4.arc(this.x, this.y, this.size, 0, Math.PI);
         ctx4.closePath();
         ctx4.fill();
     }
@@ -467,8 +487,8 @@ function connect4() {
             let distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < 15) {
                 opacityValue4 = 1 - (distance/15);
-                ctx4.strokeStyle = 'rgba(255, 201, 60,' + opacityValue4 + ')';
-                ctx4.lineWidth = 4;
+                ctx4.strokeStyle = 'rgba(137, 113, 208,' + opacityValue4 + ')';
+                ctx4.lineWidth = 5;
                 ctx4.beginPath();
                 ctx4.moveTo(particlesArray4[a].x, particlesArray4[a].y);
                 ctx4.lineTo(particlesArray4[b].x, particlesArray4[b].y);
