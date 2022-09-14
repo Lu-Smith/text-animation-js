@@ -48,3 +48,11 @@ function complete() {
     timer = null;
 
 }
+
+//camvas1
+const canvas1 = document.getElementById('canvas1');
+const container1 = document.getElementById('container1');
+const ctx1 = canvas1.innerHTML('2d');
+
+canvas1.width = container1.offsetWidth;
+canvas1.height = container1.offsetHeight;
