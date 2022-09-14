@@ -154,7 +154,7 @@ canvas2.height = container2.offsetHeight;
 const mouse2 = {
     x: null,
     y: null,
-    radius: 150
+    radius: 50
 }
 
 canvas2.addEventListener('mousemove', function(event) {
@@ -162,23 +162,23 @@ canvas2.addEventListener('mousemove', function(event) {
     mouse2.y = event.y - canvas2.getBoundingClientRect().top;
 })
 
-ctx2.fillStyle = 'white';
-ctx2.font = '90px Verdana';
-ctx2.fillText('Hello', 140, 220);
+ctx2.fillStyle = '#dfd3c3';
+ctx2.font = '120px Verdana';
+ctx2.fillText('Hello', 100, 230);
 
-const data2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
+const textCoordinates2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
 
 class Particle2 {
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.size = 3;
+        this.size = 2;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
+        this.density = (Math.random() * 30) + 5;
     }
     draw(){
-        ctx2.fillStyle = 'red';
+        ctx2.fillStyle = '#dfd3c3';
         ctx2.beginPath();
         ctx2.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx2.closePath();
@@ -188,19 +188,37 @@ class Particle2 {
         let dx = mouse2.x - this.x;
         let dy = mouse2.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 100) {
-            this.size = 10;
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse2.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse2.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
         } else {
-            this.size = 3;
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/20;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/20;
+            } 
         }
     }
 }
 
 function init2() {
-    for (let i = 0; i < 500; i++) {
-        let x = Math.random() * canvas2.width;
-        let y = Math.random() * canvas2.height;
-        particlesArray2.push(new Particle2(x, y));
+    for (let y = 0, y2 = textCoordinates2.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates2.width; x < x2; x++) {
+           if (textCoordinates2.data[(y * 4 * textCoordinates2.width) + (x * 4)] > 128) {
+              let positionX = x;
+              let positionY = y;
+              particlesArray2.push(new Particle2(positionX, positionY));
+           }
+        }
     }
 }
 
