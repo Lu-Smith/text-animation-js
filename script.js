@@ -624,3 +624,127 @@ function connect5() {
     }
 }
 
+
+//camvas6
+const canvas6 = document.getElementById('canvas6');
+const container6 = document.getElementById('container6');
+const ctx6 = canvas6.getContext('2d');
+const particlesArray6 = [];
+
+canvas6.width = container6.offsetWidth;
+canvas6.height = container6.offsetHeight;
+
+const mouse6 = {
+    x: null,
+    y: null,
+    radius: 70
+}
+
+canvas6.addEventListener('mousemove', function(event) {
+    mouse6.x = event.x - canvas6.getBoundingClientRect().left;
+    mouse6.y = event.y - canvas6.getBoundingClientRect().top;
+})
+
+ctx6.fillStyle = '#dfd6c6';
+ctx6.font = '26px Verdana';
+ctx6.fillText('&', 10, 21);
+
+const textCoordinates6 = ctx6.getImageData(0, 0, canvas6.width, canvas6.height);
+
+class Particle6 {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.size = 2;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 60) + 6;
+    }
+    draw(){
+        let dx = mouse6.x - this.x;
+        let dy = mouse6.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > 60) {
+            ctx6.fillStyle = 'white';
+            this.size = 2;
+        } else {
+            ctx6.fillStyle = 'grey';
+            this.size = 6;
+        } 
+        ctx6.beginPath();
+        ctx6.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx6.closePath();
+        ctx6.fill();
+    }
+    update(){
+        let dx = mouse6.x - this.x;
+        let dy = mouse6.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse6.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse6.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
+        } else {
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/40;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/40;
+            } 
+        }
+    }
+}
+
+function init6() {
+    for (let y = 0, y2 = textCoordinates6.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates6.width; x < x2; x++) {
+           if (textCoordinates6.data[(y * 4 * textCoordinates6.width) + (x * 4)] > 128) {
+              let positionX = x;
+              let positionY = y;
+              particlesArray6.push(new Particle6(positionX * 14, positionY * 14));
+           }
+        }
+    }
+}
+
+init6();
+
+function animate6() {
+    ctx6.clearRect(0, 0, canvas6.width, canvas6.height);
+    for (let i = 0; i < particlesArray6.length; i++) {
+        particlesArray6[i].draw();
+        particlesArray6[i].update();
+    }
+    connect6();
+    requestAnimationFrame(animate6);
+}
+
+animate6();
+
+function connect6() {
+    let opacityValue6 = 1;
+    for (let a = 0; a < particlesArray6.length; a++) {
+        for (let b = a; b < particlesArray6.length; b++) {
+            let dx = particlesArray6[a].x - particlesArray6[b].x;
+            let dy= particlesArray6[a].y - particlesArray6[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 26) {
+                opacityValue6 = 1 - (distance/26);
+                ctx6.strokeStyle = 'rgba(255, 255, 255,' + opacityValue6 + ')';
+                ctx6.lineWidth = 6;
+                ctx6.beginPath();
+                ctx6.moveTo(particlesArray6[a].x, particlesArray6[a].y);
+                ctx6.lineTo(particlesArray6[b].x, particlesArray6[b].y);
+                ctx6.stroke();
+
+            }
+        }
+    }
+}
