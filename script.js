@@ -324,7 +324,7 @@ class Particle3 {
         let distance = Math.sqrt(dx * dx + dy * dy);
         let forceDirectionX = dx / distance;
         let forceDirectionY = dy / distance;
-        let maxDistance = mouse3.radius;
+        let maxDistance = mouse3.radius * 2;
         let force = (maxDistance - distance) / maxDistance;
         let directionX = forceDirectionX * force * this.density;
         let directionY = forceDirectionY * force * this.density;
@@ -517,7 +517,7 @@ canvas5.height = container5.offsetHeight;
 const mouse5 = {
     x: null,
     y: null,
-    radius: 70
+    radius: 100
 }
 
 canvas5.addEventListener('mousemove', function(event) {
@@ -579,7 +579,7 @@ class Particle5 {
         this.distance = distance;
         let forceDirectionX = dx / distance;
         let forceDirectionY = dy / distance;
-        let maxDistance = mouse5.radius;
+        let maxDistance = mouse5.radius * 3;
         let force = (maxDistance - distance) / maxDistance;
         let directionX = forceDirectionX * force * this.density;
         let directionY = forceDirectionY * force * this.density;
@@ -872,3 +872,240 @@ function animate7() {
 }
 
 animate7();
+
+
+//camvas8
+const canvas8 = document.getElementById('canvas8');
+const container8 = document.getElementById('container8');
+const ctx8 = canvas8.getContext('2d');
+const particlesArray8 = [];
+ctx8.lineWidth = 3;
+
+canvas8.width = container8.offsetWidth;
+canvas8.height = container8.offsetHeight;
+
+const mouse8 = {
+    x: null,
+    y: null,
+    radius: 80
+}
+
+canvas8.addEventListener('mousemove', function(event) {
+    mouse8.x = event.x - canvas8.getBoundingClientRect().left;
+    mouse8.y = event.y - canvas8.getBoundingClientRect().top;
+})
+
+ctx8.fillStyle = '#dfd5c5';
+ctx8.font = '15px Verdana';
+ctx8.fillText('LIFE', 20, 14);
+ctx8.fillText('IS', 28, 28);
+ctx8.fillText('GOOD', 13, 42);
+
+const textCoordinates8 = ctx8.getImageData(0, 0, canvas8.width, canvas8.height);
+
+class Particle8 {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.size = 3;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 5) + 0.5;
+        this.distance;
+    }
+    draw(){
+        ctx8.lineWidth = 2;
+        ctx8.strokeStyle = 'rgba(253, 233,148, 1)';
+        ctx8.beginPath();
+
+        if ( this.distance < mouse8.radius - 5) {
+            this.size = 5;
+            ctx8.strokeStyle = 'rgba(255, 182, 119, 1)';
+            ctx8.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx8.stroke();
+            ctx8.beginPath();
+        } else if ( this.distance <= mouse5.radius) {
+            this.size = 3;
+            ctx8.strokeStyle = 'rgba(255, 255, 255, 1)';
+            ctx8.rect(this.x, this.y, this.size, this.size);
+            ctx8.stroke();
+            ctx8.beginPath();
+        } else {
+            this.size = 2;
+            ctx8.arc(this.x + 6, this.y + 6, this.size, 0, Math.PI * 2);
+            ctx8.stroke();
+            ctx8.beginPath();
+        }
+        
+        ctx8.closePath();
+        ctx8.fill();
+    }
+    update(){
+        let dx = mouse8.x - this.x;
+        let dy = mouse8.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        this.distance = distance;
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse8.radius * 2;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse8.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
+        } else {
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/30;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/30;
+            } 
+        }
+    }
+}
+
+function init8() {
+    for (let y = 0, y2 = textCoordinates8.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates8.width; x < x2; x++) {
+           if (textCoordinates8.data[(y * 4 * textCoordinates8.width) + (x * 4)] > 128) {
+              let positionX = x;
+              let positionY = y;
+              particlesArray8.push(new Particle8(positionX * 7, positionY * 7));
+           }
+        }
+    }
+}
+
+init8();
+
+function animate8() {
+    ctx8.clearRect(0, 0, canvas8.width, canvas8.height);
+    for (let i = 0; i < particlesArray8.length; i++) {
+        particlesArray8[i].draw();
+        particlesArray8[i].update();
+    }
+    requestAnimationFrame(animate8);
+}
+
+animate8();
+
+//camvas9
+const canvas9 = document.getElementById('canvas9');
+const container9 = document.getElementById('container9');
+const ctx9 = canvas9.getContext('2d');
+const particlesArray9 = [];
+ctx9.lineWidth = 3;
+
+canvas9.width = container9.offsetWidth;
+canvas9.height = container9.offsetHeight;
+
+const mouse9 = {
+    x: null,
+    y: null,
+    radius: 90
+}
+
+canvas9.addEventListener('mousemove', function(event) {
+    mouse9.x = event.x - canvas9.getBoundingClientRect().left;
+    mouse9.y = event.y - canvas9.getBoundingClientRect().top;
+})
+
+ctx9.fillStyle = '#dfd5c5';
+ctx9.font = '15px Verdana';
+ctx9.fillText('LIFE', 20, 14);
+ctx9.fillText('IS', 29, 29);
+ctx9.fillText('GOOD', 13, 42);
+
+const textCoordinates9 = ctx9.getImageData(0, 0, canvas9.width, canvas9.height);
+
+class Particle9 {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.size = 3;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 5) + 0.5;
+        this.distance;
+    }
+    draw(){
+        ctx9.lineWidth = 2;
+        ctx9.strokeStyle = 'rgba(253, 233,149, 1)';
+        ctx9.beginPath();
+
+        if ( this.distance < mouse9.radius - 5) {
+            this.size = 5;
+            ctx9.strokeStyle = 'rgba(255, 192, 119, 1)';
+            ctx9.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx9.stroke();
+            ctx9.beginPath();
+        } else if ( this.distance <= mouse5.radius) {
+            this.size = 3;
+            ctx9.strokeStyle = 'rgba(255, 255, 255, 1)';
+            ctx9.rect(this.x, this.y, this.size, this.size);
+            ctx9.stroke();
+            ctx9.beginPath();
+        } else {
+            this.size = 2;
+            ctx9.arc(this.x + 6, this.y + 6, this.size, 0, Math.PI * 2);
+            ctx9.stroke();
+            ctx9.beginPath();
+        }
+        
+        ctx9.closePath();
+        ctx9.fill();
+    }
+    update(){
+        let dx = mouse9.x - this.x;
+        let dy = mouse9.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        this.distance = distance;
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse9.radius * 2;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse9.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
+        } else {
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/30;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/30;
+            } 
+        }
+    }
+}
+
+function init9() {
+    for (let y = 0, y2 = textCoordinates9.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates9.width; x < x2; x++) {
+           if (textCoordinates9.data[(y * 4 * textCoordinates9.width) + (x * 4)] > 129) {
+              let positionX = x;
+              let positionY = y;
+              particlesArray9.push(new Particle9(positionX * 7, positionY * 7));
+           }
+        }
+    }
+}
+
+init9();
+
+function animate9() {
+    ctx9.clearRect(0, 0, canvas9.width, canvas9.height);
+    for (let i = 0; i < particlesArray9.length; i++) {
+        particlesArray9[i].draw();
+        particlesArray9[i].update();
+    }
+    requestAnimationFrame(animate9);
+}
+
+animate9();
