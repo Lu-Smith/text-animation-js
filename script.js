@@ -71,7 +71,7 @@ canvas1.addEventListener('mousemove', function(event) {
 
 ctx1.fillStyle = '#dfd3c3';
 ctx1.font = '120px Verdana';
-ctx1.fillText('Hello', canvas1.width/4.9, canvas1.height/1.6);
+ctx1.fillText('Hello', canvas1.width/4.8, canvas1.height/1.6);
 
 const textCoordinates1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
 
@@ -774,7 +774,7 @@ canvas7.addEventListener('mousemove', function(event) {
 
 ctx7.fillStyle = '#dfd5c5';
 ctx7.font = '16px Verdana';
-ctx7.fillText('Moon', 3, 20);
+ctx7.fillText('Moon', 3.5, 20);
 
 const textCoordinates7 = ctx7.getImageData(0, 0, canvas7.width, canvas7.height);
 
@@ -897,8 +897,8 @@ canvas8.addEventListener('mousemove', function(event) {
 
 ctx8.fillStyle = '#dfd5c5';
 ctx8.font = '15px Verdana';
-ctx8.fillText('LIFE', 20, 14);
-ctx8.fillText('IS', 28, 28);
+ctx8.fillText('LIFE', 19, 14);
+ctx8.fillText('IS', 27, 28);
 ctx8.fillText('GOOD', 13, 42);
 
 const textCoordinates8 = ctx8.getImageData(0, 0, canvas8.width, canvas8.height);
@@ -1015,7 +1015,7 @@ canvas9.addEventListener('mousemove', function(event) {
 
 ctx9.fillStyle = '#dfd5c5';
 ctx9.font = '20px Times New Roman';
-ctx9.fillText('💗', 7, 20);
+ctx9.fillText('💗', 8, 20);
 
 
 const textCoordinates9 = ctx9.getImageData(0, 0, canvas9.width, canvas9.height);
