@@ -773,8 +773,8 @@ canvas7.addEventListener('mousemove', function(event) {
 })
 
 ctx7.fillStyle = '#dfd5c5';
-ctx7.font = '25px Verdana';
-ctx7.fillText('&', 10, 21);
+ctx7.font = '16px Verdana';
+ctx7.fillText('Moon', 3, 20);
 
 const textCoordinates7 = ctx7.getImageData(0, 0, canvas7.width, canvas7.height);
 
@@ -789,31 +789,33 @@ class Particle7 {
         this.distance;
     }
     draw(){
-        ctx7.fillStyle = 'rgba(255, 203, 203, 0.7)';
-        ctx7.strokeStyle = 'rgba(162, 168, 211, 1)';
+        ctx7.fillStyle = 'rgba(0, 187, 240, 0.7)';
+        ctx7.lineWidth = 3;
+        ctx7.strokeStyle = 'rgba(66, 184, 131, 1)';
         ctx7.beginPath();
 
         if ( this.distance < mouse7.radius - 5) {
             this.size = 13;
-            ctx7.strokeStyle = 'rgba(162, 168, 211, 1)';
-            ctx7.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx7.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx7.strokeStyle = 'rgba(255, 255, 130, 1)';
+            ctx7.rect(this.x, this.y, this.size * 2, this.size * 2);
             ctx7.stroke();
             ctx7.beginPath();
-            ctx7.arc(this.x - 6, this.y - 5, this.size/3.5, 0, Math.PI * 2);
-            ctx7.moveTo(this.x - 2, this.y + 4);
-            ctx7.arc(this.x - 2, this.y + 4, this.size/2, 1.2, Math.PI);
+            //ctx7.arc(this.x - 10, this.y - 10, this.size/1.5, 0, Math.PI * 2);
         } else if ( this.distance <= mouse5.radius) {
-            this.size = 10;
-            ctx7.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            this.size = 25;
+            ctx7.fillStyle = 'rgba(253, 163, 3, 0.7)';
+            ctx7.strokeStyle = 'rgba(253, 163, 3, 1)';
+            ctx7.rect(this.x, this.y, this.size, this.size);
             ctx7.stroke();
             ctx7.beginPath();
-            ctx7.arc(this.x - 2, this.y -2, this.size/3, 0, Math.PI * 2);
+            ctx7.arc(this.x + 13, this.y + 13, this.size/5, 0, Math.PI * 2);
         } else {
             this.size = 8;
-            ctx7.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx7.rect(this.x, this.y, this.size * 1.5, this.size * 1.5);
             ctx7.stroke();
             ctx7.beginPath();
-            ctx7.arc(this.x - 1, this.y + 0.5, this.size/1.8, 0.7, Math.PI);
+            ctx7.arc(this.x + 6, this.y + 6, this.size/2.5, 0, Math.PI * 2);
         }
         
         ctx7.closePath();
@@ -852,7 +854,7 @@ function init7() {
            if (textCoordinates7.data[(y * 4 * textCoordinates7.width) + (x * 4)] > 128) {
               let positionX = x;
               let positionY = y;
-              particlesArray7.push(new Particle7(positionX * 14, positionY * 14));
+              particlesArray7.push(new Particle7(positionX * 10, positionY * 10));
            }
         }
     }
