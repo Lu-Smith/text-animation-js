@@ -1005,7 +1005,7 @@ canvas9.height = container9.offsetHeight;
 const mouse9 = {
     x: null,
     y: null,
-    radius: 90
+    radius: 50
 }
 
 canvas9.addEventListener('mousemove', function(event) {
@@ -1014,10 +1014,9 @@ canvas9.addEventListener('mousemove', function(event) {
 })
 
 ctx9.fillStyle = '#dfd5c5';
-ctx9.font = '15px Verdana';
-ctx9.fillText('LIFE', 20, 14);
-ctx9.fillText('IS', 29, 29);
-ctx9.fillText('GOOD', 13, 42);
+ctx9.font = '20px Times New Roman';
+ctx9.fillText('💗', 7, 20);
+
 
 const textCoordinates9 = ctx9.getImageData(0, 0, canvas9.width, canvas9.height);
 
@@ -1032,26 +1031,23 @@ class Particle9 {
         this.distance;
     }
     draw(){
-        ctx9.lineWidth = 2;
-        ctx9.strokeStyle = 'rgba(253, 233,149, 1)';
+        ctx9.fillStyle = '#ff0000';
         ctx9.beginPath();
 
         if ( this.distance < mouse9.radius - 5) {
-            this.size = 5;
-            ctx9.strokeStyle = 'rgba(255, 192, 119, 1)';
+            this.size = 2;
             ctx9.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx9.stroke();
+            ctx9.fill();
             ctx9.beginPath();
         } else if ( this.distance <= mouse5.radius) {
             this.size = 3;
-            ctx9.strokeStyle = 'rgba(255, 255, 255, 1)';
             ctx9.rect(this.x, this.y, this.size, this.size);
-            ctx9.stroke();
+            ctx9.fill();
             ctx9.beginPath();
         } else {
-            this.size = 2;
+            this.size = 5;
             ctx9.arc(this.x + 6, this.y + 6, this.size, 0, Math.PI * 2);
-            ctx9.stroke();
+            ctx9.fill();
             ctx9.beginPath();
         }
         
@@ -1091,7 +1087,7 @@ function init9() {
            if (textCoordinates9.data[(y * 4 * textCoordinates9.width) + (x * 4)] > 129) {
               let positionX = x;
               let positionY = y;
-              particlesArray9.push(new Particle9(positionX * 7, positionY * 7));
+              particlesArray9.push(new Particle9(positionX * 12, positionY * 12));
            }
         }
     }
@@ -1105,7 +1101,29 @@ function animate9() {
         particlesArray9[i].draw();
         particlesArray9[i].update();
     }
+    connect9();
     requestAnimationFrame(animate9);
 }
 
 animate9();
+
+function connect9() {
+    let opacityValue9 = 1;
+    for (let a = 0; a < particlesArray9.length; a++) {
+        for (let b = a; b < particlesArray9.length; b++) {
+            let dx = particlesArray9[a].x - particlesArray9[b].x;
+            let dy= particlesArray9[a].y - particlesArray9[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 20) {
+                opacityValue9 = 1 - (distance/20);
+                ctx9.strokeStyle = 'rgba(255, 0, 0,' + opacityValue9 + ')';
+                ctx9.lineWidth = 4;
+                ctx9.beginPath();
+                ctx9.moveTo(particlesArray9[a].x, particlesArray9[a].y);
+                ctx9.lineTo(particlesArray9[b].x, particlesArray9[b].y);
+                ctx9.stroke();
+
+            }
+        }
+    }
+}
