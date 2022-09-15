@@ -505,6 +505,7 @@ const canvas5 = document.getElementById('canvas5');
 const container5 = document.getElementById('container5');
 const ctx5 = canvas5.getContext('2d');
 const particlesArray5 = [];
+ctx5.lineWidth = 3;
 
 canvas5.width = container5.offsetWidth;
 canvas5.height = container5.offsetHeight;
@@ -530,24 +531,27 @@ class Particle5 {
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.size = 2;
+        this.size = 3;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.density = (Math.random() * 60) + 5;
+        this.density = (Math.random() * 8) + 1;
+        this.distance;
     }
     draw(){
-        let dx = mouse5.x - this.x;
-        let dy = mouse5.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance > 50) {
-            ctx5.fillStyle = 'white';
-            this.size = 2;
-        } else {
-            ctx5.fillStyle = 'grey';
-            this.size = 5;
-        } 
+        ctx5.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx5.strokeStyle = 'rgba(24, 147, 214, 1)';
         ctx5.beginPath();
-        ctx5.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+        if ( this.distance < mouse5.radius - 5) {
+            this.size = 10;
+            ctx5.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        } else if ( this.distance <= mouse5.radius) {
+            this.size = 15;
+        } else {
+            this.size = 20;
+
+        }
+        
         ctx5.closePath();
         ctx5.fill();
     }
@@ -555,6 +559,7 @@ class Particle5 {
         let dx = mouse5.x - this.x;
         let dy = mouse5.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
+        this.distance = distance;
         let forceDirectionX = dx / distance;
         let forceDirectionY = dy / distance;
         let maxDistance = mouse5.radius;
@@ -597,32 +602,32 @@ function animate5() {
         particlesArray5[i].draw();
         particlesArray5[i].update();
     }
-    connect5();
+    //connect5();
     requestAnimationFrame(animate5);
 }
 
 animate5();
 
-function connect5() {
-    let opacityValue5 = 1;
-    for (let a = 0; a < particlesArray5.length; a++) {
-        for (let b = a; b < particlesArray5.length; b++) {
-            let dx = particlesArray5[a].x - particlesArray5[b].x;
-            let dy= particlesArray5[a].y - particlesArray5[b].y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < 25) {
-                opacityValue5 = 1 - (distance/25);
-                ctx5.strokeStyle = 'rgba(255, 255, 255,' + opacityValue5 + ')';
-                ctx5.lineWidth = 5;
-                ctx5.beginPath();
-                ctx5.moveTo(particlesArray5[a].x, particlesArray5[a].y);
-                ctx5.lineTo(particlesArray5[b].x, particlesArray5[b].y);
-                ctx5.stroke();
+// function connect5() {
+//     let opacityValue5 = 1;
+//     for (let a = 0; a < particlesArray5.length; a++) {
+//         for (let b = a; b < particlesArray5.length; b++) {
+//             let dx = particlesArray5[a].x - particlesArray5[b].x;
+//             let dy= particlesArray5[a].y - particlesArray5[b].y;
+//             let distance = Math.sqrt(dx * dx + dy * dy);
+//             if (distance < 25) {
+//                 opacityValue5 = 1 - (distance/25);
+//                 ctx5.strokeStyle = 'rgba(255, 255, 255,' + opacityValue5 + ')';
+//                 ctx5.lineWidth = 5;
+//                 ctx5.beginPath();
+//                 ctx5.moveTo(particlesArray5[a].x, particlesArray5[a].y);
+//                 ctx5.lineTo(particlesArray5[b].x, particlesArray5[b].y);
+//                 ctx5.stroke();
 
-            }
-        }
-    }
-}
+//             }
+//         }
+//     }
+// }
 
 
 //camvas6
