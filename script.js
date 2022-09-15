@@ -411,18 +411,22 @@ class Particle4 {
         let dx = mouse4.x - this.x;
         let dy = mouse4.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
+        ctx4.beginPath();
         if (distance > 100) {
             ctx4.fillStyle = '#8dc6ff';
             this.size = 3;
+            ctx4.arc(this.x, this.y, this.size, 0, Math.PI);
         } else  if (distance < 50) {
             ctx4.fillStyle = '#f4aeba';
             this.size = 7;
+            ctx4.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         } else {
             ctx4.fillStyle = '#fdfdcb';
-            this.size = 3;
+            this.size = 5;
+            ctx4.arc(this.x, this.y, this.size, 0, Math.PI);
         }
-        ctx4.beginPath();
-        ctx4.arc(this.x, this.y, this.size, 0, Math.PI);
+        
+        
         ctx4.closePath();
         ctx4.fill();
     }
@@ -615,32 +619,10 @@ function animate5() {
         particlesArray5[i].draw();
         particlesArray5[i].update();
     }
-    //connect5();
     requestAnimationFrame(animate5);
 }
 
 animate5();
-
-// function connect5() {
-//     let opacityValue5 = 1;
-//     for (let a = 0; a < particlesArray5.length; a++) {
-//         for (let b = a; b < particlesArray5.length; b++) {
-//             let dx = particlesArray5[a].x - particlesArray5[b].x;
-//             let dy= particlesArray5[a].y - particlesArray5[b].y;
-//             let distance = Math.sqrt(dx * dx + dy * dy);
-//             if (distance < 25) {
-//                 opacityValue5 = 1 - (distance/25);
-//                 ctx5.strokeStyle = 'rgba(255, 255, 255,' + opacityValue5 + ')';
-//                 ctx5.lineWidth = 5;
-//                 ctx5.beginPath();
-//                 ctx5.moveTo(particlesArray5[a].x, particlesArray5[a].y);
-//                 ctx5.lineTo(particlesArray5[b].x, particlesArray5[b].y);
-//                 ctx5.stroke();
-
-//             }
-//         }
-//     }
-// }
 
 
 //camvas6
@@ -664,8 +646,8 @@ canvas6.addEventListener('mousemove', function(event) {
 })
 
 ctx6.fillStyle = '#dfd6c6';
-ctx6.font = '26px Verdana';
-ctx6.fillText('&', 10, 21);
+ctx6.font = '18px Verdana';
+ctx6.fillText('CAT', 4, 20);
 
 const textCoordinates6 = ctx6.getImageData(0, 0, canvas6.width, canvas6.height);
 
@@ -726,7 +708,7 @@ function init6() {
            if (textCoordinates6.data[(y * 4 * textCoordinates6.width) + (x * 4)] > 128) {
               let positionX = x;
               let positionY = y;
-              particlesArray6.push(new Particle6(positionX * 14, positionY * 14));
+              particlesArray6.push(new Particle6(positionX * 12, positionY * 12));
            }
         }
     }
@@ -766,3 +748,125 @@ function connect6() {
         }
     }
 }
+
+
+
+//camvas7
+const canvas7 = document.getElementById('canvas7');
+const container7 = document.getElementById('container7');
+const ctx7 = canvas7.getContext('2d');
+const particlesArray7 = [];
+ctx7.lineWidth = 3;
+
+canvas7.width = container7.offsetWidth;
+canvas7.height = container7.offsetHeight;
+
+const mouse7 = {
+    x: null,
+    y: null,
+    radius: 70
+}
+
+canvas7.addEventListener('mousemove', function(event) {
+    mouse7.x = event.x - canvas7.getBoundingClientRect().left;
+    mouse7.y = event.y - canvas7.getBoundingClientRect().top;
+})
+
+ctx7.fillStyle = '#dfd5c5';
+ctx7.font = '25px Verdana';
+ctx7.fillText('&', 10, 21);
+
+const textCoordinates7 = ctx7.getImageData(0, 0, canvas7.width, canvas7.height);
+
+class Particle7 {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.size = 3;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 5) + 0.5;
+        this.distance;
+    }
+    draw(){
+        ctx7.fillStyle = 'rgba(255, 203, 203, 0.7)';
+        ctx7.strokeStyle = 'rgba(162, 168, 211, 1)';
+        ctx7.beginPath();
+
+        if ( this.distance < mouse7.radius - 5) {
+            this.size = 13;
+            ctx7.strokeStyle = 'rgba(162, 168, 211, 1)';
+            ctx7.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx7.stroke();
+            ctx7.beginPath();
+            ctx7.arc(this.x - 6, this.y - 5, this.size/3.5, 0, Math.PI * 2);
+            ctx7.moveTo(this.x - 2, this.y + 4);
+            ctx7.arc(this.x - 2, this.y + 4, this.size/2, 1.2, Math.PI);
+        } else if ( this.distance <= mouse5.radius) {
+            this.size = 10;
+            ctx7.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx7.stroke();
+            ctx7.beginPath();
+            ctx7.arc(this.x - 2, this.y -2, this.size/3, 0, Math.PI * 2);
+        } else {
+            this.size = 8;
+            ctx7.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx7.stroke();
+            ctx7.beginPath();
+            ctx7.arc(this.x - 1, this.y + 0.5, this.size/1.8, 0.7, Math.PI);
+        }
+        
+        ctx7.closePath();
+        ctx7.fill();
+    }
+    update(){
+        let dx = mouse7.x - this.x;
+        let dy = mouse7.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        this.distance = distance;
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse7.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        if (distance < mouse7.radius) {
+            this.x -= directionX;
+            this.y -= directionY;
+        } else {
+            if ( this.x !== this.baseX ){
+                let dx = this.x - this.baseX;
+                this.x -= dx/40;
+            } 
+            if ( this.y !== this.baseY ){
+                let dy = this.y - this.baseY;
+                this.y -= dy/40;
+            } 
+        }
+    }
+}
+
+function init7() {
+    for (let y = 0, y2 = textCoordinates7.height; y < y2; y++) {
+        for (let x = 0, x2 = textCoordinates7.width; x < x2; x++) {
+           if (textCoordinates7.data[(y * 4 * textCoordinates7.width) + (x * 4)] > 128) {
+              let positionX = x;
+              let positionY = y;
+              particlesArray7.push(new Particle7(positionX * 14, positionY * 14));
+           }
+        }
+    }
+}
+
+init7();
+
+function animate7() {
+    ctx7.clearRect(0, 0, canvas7.width, canvas7.height);
+    for (let i = 0; i < particlesArray7.length; i++) {
+        particlesArray7[i].draw();
+        particlesArray7[i].update();
+    }
+    requestAnimationFrame(animate7);
+}
+
+animate7();
