@@ -534,22 +534,35 @@ class Particle5 {
         this.size = 3;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.density = (Math.random() * 8) + 1;
+        this.density = (Math.random() * 5) + 0.5;
         this.distance;
     }
     draw(){
-        ctx5.fillStyle = 'rgba(255, 255, 255, 0.8)';
-        ctx5.strokeStyle = 'rgba(24, 147, 214, 1)';
+        ctx5.fillStyle = 'rgba(255, 203, 203, 0.7)';
+        ctx5.strokeStyle = 'rgba(162, 168, 211, 1)';
         ctx5.beginPath();
 
         if ( this.distance < mouse5.radius - 5) {
+            this.size = 13;
+            ctx5.strokeStyle = 'rgba(162, 168, 211, 1)';
+            ctx5.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx5.stroke();
+            ctx5.beginPath();
+            ctx5.arc(this.x - 6, this.y - 5, this.size/3.5, 0, Math.PI * 2);
+            ctx5.moveTo(this.x - 2, this.y + 4);
+            ctx5.arc(this.x - 2, this.y + 4, this.size/2, 1.2, Math.PI);
+        } else if ( this.distance <= mouse5.radius) {
             this.size = 10;
             ctx5.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        } else if ( this.distance <= mouse5.radius) {
-            this.size = 15;
+            ctx5.stroke();
+            ctx5.beginPath();
+            ctx5.arc(this.x - 2, this.y -2, this.size/3, 0, Math.PI * 2);
         } else {
-            this.size = 20;
-
+            this.size = 8;
+            ctx5.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx5.stroke();
+            ctx5.beginPath();
+            ctx5.arc(this.x - 1, this.y + 0.5, this.size/1.8, 0.7, Math.PI);
         }
         
         ctx5.closePath();
